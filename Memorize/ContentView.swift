@@ -8,24 +8,59 @@
 import SwiftUI
 
 struct ContentView: View {
-    //ako se ovo stavi unutar HSTACK-a dodavanje nece da radi. Why?
     @State var cardCount: Int = 4
     let emojis: Array<String> = ["👻", "🧠", "💋", "👀", "👀", "🦷", "🫀", "👃🏼", "🤚🏻", "💄", "👁️"]
+    //ako se ovo stavi unutar HSTACK-a dodavanje nece da radi. Why?
+    
     var body: some View {
+        VStack{
+            cards
+            Spacer()
+            cardCountAdjusters
+        }
+        
+    }
+    
+    var cardCountAdjusters : some View {
         HStack{
+            cardRemover
+            Spacer()
+            cardAdder
+        }
+        .imageScale(.large)
+        .foregroundColor(.blue)
+        .padding()
+    }
+    var cards : some View {
+        LazyVGrid(columns:[GridItem(),GridItem(), GridItem()]){
             ForEach(0..<cardCount, id: \.self)
             {
                 index in
                 CardView(content:emojis[index])
             }
-            Button("AddCard")
-            {
+            
+        }
+        .foregroundColor(.orange)
+            .padding()
+            
+    }
+    var cardRemover : some View{
+        Button(action:{
+            if(cardCount<emojis.count){
                 cardCount += 1
             }
-        }
-        
-        .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
-        .padding()
+        }, label:{
+            Image(systemName: "rectangle.stack.badge.plus")
+        })
+    }
+    var cardAdder: some View {
+        Button(action:{
+            if(cardCount>1){
+                cardCount -= 1
+            }
+        }, label:{
+            Image(systemName: "rectangle.stack.badge.minus")
+        })
     }
 }
 
@@ -49,11 +84,6 @@ struct CardView:  View{
         }
     }
 }
-
-
-
-
-
 
 #Preview {
     ContentView()
