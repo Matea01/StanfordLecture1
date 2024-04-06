@@ -8,18 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
+    //ako se ovo stavi unutar HSTACK-a dodavanje nece da radi. Why?
+    @State var cardCount: Int = 4
+    let emojis: Array<String> = ["👻", "🧠", "💋", "👀", "👀", "🦷", "🫀", "👃🏼", "🤚🏻", "💄", "👁️"]
     var body: some View {
         HStack{
-            let emojis: Array<String> = ["👻", "🧠", "💋", "👀"];
-            ForEach(emojis.indices, id: \.self)
+            ForEach(0..<cardCount, id: \.self)
             {
                 index in
                 CardView(content:emojis[index])
             }
+            Button("AddCard")
+            {
+                cardCount += 1
+            }
         }
         
         .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
-        .padding()
         .padding()
     }
 }
